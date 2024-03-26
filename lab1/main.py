@@ -1,4 +1,4 @@
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QAction, QIcon, QColor, QFont, QFontDatabase
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QSpinBox, QPushButton, QTableWidget, \
     QRadioButton, QTableWidgetItem, QFileDialog, QCheckBox
@@ -17,8 +17,8 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Классная лабораторная!")
         self.setWindowIcon(QIcon('GUI/logo.png'))
         self.setFixedSize(1500, 800)
-        self.setObjectName("MainWindow")
-        self.setStyleSheet("#MainWindow{border-image:url(GUI/bg.jpg)}")
+        # self.setObjectName("MainWindow")
+        # self.setStyleSheet("#MainWindow{border-image:url(GUI/bg.jpg)}")
 
         id = QFontDatabase.addApplicationFont("GUI/font.otf")
         font = QFont(QFontDatabase.applicationFontFamilies(id)[0], 14)
@@ -48,6 +48,11 @@ class MainWindow(QMainWindow):
         self.Button_gen = QPushButton('Заполнить случайными данными', self, font=font_buttons)
         self.Table = QTableWidget(self, rowCount=self.row_count_prev, columnCount=self.col_count_prev, font=font)
 
+        # Бэйкон
+        self.Label_Bacon = QLabel('', self, font=font, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.Button_Bacon = QPushButton(QIcon('GUI/Bacon.jpg', ), '', self)
+        self.Button_Bacon.setIconSize(QSize(200, 700))
+
         # Правая часть
         self.CB_comments = QCheckBox('Нужны пояснения?', self, font=font_R_CB)
         self.SB_sleep_time = QSpinBox(self, value=2, minimum=1, maximum=3, font=font, enabled=False,
@@ -67,6 +72,10 @@ class MainWindow(QMainWindow):
         self.RB_bimatrix.setGeometry(400, 50, 300, 25)
         self.Button_gen.setGeometry(400, 75, 300, 50)
         self.Table.setGeometry(0, 150, 700, 650)
+
+        # Bacon
+        self.Label_Bacon.setGeometry(700, 50, 200, 25)
+        self.Button_Bacon.setGeometry(700, 75, 200, 700)
 
         # Правая часть
         self.CB_comments.setGeometry(975, 25, 225, 25)
@@ -90,6 +99,9 @@ class MainWindow(QMainWindow):
         self.RB_bimatrix.clicked.connect(self.zeros_table)
         self.Button_gen.clicked.connect(self.gen_table)
 
+        # Bacon
+        self.Button_Bacon.clicked.connect(self.click_Bacon)
+
         # Правая часть
         self.CB_comments.clicked.connect(self.click_comments)
         self.Button_maximinimax.clicked.connect(self.maximinimax)
@@ -99,6 +111,9 @@ class MainWindow(QMainWindow):
 
         # Забиваем матрицу нулями
         self.zeros_table()
+
+    def click_Bacon(self):
+        self.Label_Bacon.setText('Поставьте 5 :)' if self.Label_Bacon.text() == '' else '')
 
     def click_comments(self):
         self.SB_sleep_time.setEnabled(True if self.CB_comments.isChecked() else False)
