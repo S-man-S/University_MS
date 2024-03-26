@@ -17,8 +17,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Классная лабораторная!")
         self.setWindowIcon(QIcon('GUI/logo.png'))
         self.setFixedSize(1500, 800)
-        # self.setObjectName("MainWindow")
-        # self.setStyleSheet("#MainWindow{border-image:url(GUI/bg.jpg)}")
 
         id = QFontDatabase.addApplicationFont("GUI/font.otf")
         font = QFont(QFontDatabase.applicationFontFamilies(id)[0], 14)
@@ -48,7 +46,7 @@ class MainWindow(QMainWindow):
         self.Button_gen = QPushButton('Заполнить случайными данными', self, font=font_buttons)
         self.Table = QTableWidget(self, rowCount=self.row_count_prev, columnCount=self.col_count_prev, font=font)
 
-        # Бэйкон
+        # Bacon
         self.Label_Bacon = QLabel('', self, font=font, alignment=Qt.AlignmentFlag.AlignCenter)
         self.Button_Bacon = QPushButton(QIcon('GUI/Bacon.jpg', ), '', self)
         self.Button_Bacon.setIconSize(QSize(200, 700))
@@ -309,8 +307,6 @@ class MainWindow(QMainWindow):
         del_rows = set()
         for cur_row in range(len(matrix)):
             for row in range(cur_row + 1, len(matrix)):
-                if cur_row == row:
-                    continue
                 for col in range(len(matrix[0])):
                     if flag == 0:
                         if matrix[cur_row][col] == matrix[row][col]:
@@ -323,17 +319,17 @@ class MainWindow(QMainWindow):
                     else:
                         if matrix[cur_row][col] == matrix[row][col]:
                             if strong:
-                                flag = 0
+                                flag = 3
                                 break
                         elif matrix[cur_row][col] < matrix[row][col]:
                             if flag == 2:
-                                flag = 0
+                                flag = 3
                                 break
                         else:
                             if flag == 1:
-                                flag = 0
+                                flag = 3
                                 break
-                if flag == 1:
+                if flag == 1 or (flag == 0 and not strong):
                     del_rows.add(cur_row)
                 elif flag == 2:
                     del_rows.add(row)
